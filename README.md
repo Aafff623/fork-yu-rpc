@@ -106,4 +106,4 @@ Consumer Interface → Dynamic Proxy → Service Discovery → Load Balancer
 
 ## 维护者
 
-二次开发维护者：[threetwoa](https://github.com/threetwoa)。上游来源保留在 Git remote 的 upstream 中，许可证以 LICENSE 为准。
+原作者：**李鱼皮（[liyupi](https://github.com/liyupi)）**。二次开发维护者：[threetwoa](https://github.com/threetwoa)。上游项目为 [liyupi/yu-rpc](https://github.com/liyupi/yu-rpc)，许可证以 LICENSE 及上游版权声明为准。

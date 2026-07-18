@@ -4,6 +4,11 @@
 
 | 路径 | 状态 | 用途 |
 |---|---|---|
+| `images/readme/features.{png,svg}` | active | 核心能力总览；PNG 展示、SVG 源稿 |
+| `images/readme/architecture.{png,svg}` | active | 系统分层和依赖方向 |
+| `images/readme/tech-stack.{png,svg}` | active | 技术栈分层 |
+| `images/readme/workflow.{png,svg}` | active | 用户与系统主链路 |
+| `images/readme/structure.{png,svg}` | active | 仓库目录和模块职责 |
 | `images/readme/banner.png` | active | Threetwoa RPC 的 GitHub README 3:1 页首视觉 |
 | `images/avatar/` | reserved | 维护者或产品头像；没有审核过的真实资产前保持空 |
 | `images/icon/` | reserved | 产品图标；优先使用可编辑源文件并记录许可证 |

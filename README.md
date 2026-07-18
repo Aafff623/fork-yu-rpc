@@ -22,6 +22,8 @@
 
 ## 功能
 
+<p align="center"><img src="assets/images/readme/features.png" alt="核心能力总览" width="100%"></p>
+
 | 能力 | 实现 |
 |---|---|
 | 服务调用 | JDK 动态代理将接口调用转换为 RPC 请求 |
@@ -31,6 +33,10 @@
 | 流量治理 | 随机、轮询、一致性哈希负载均衡 |
 | 稳定性 | 重试策略与 fail-fast / fail-safe / fail-over / fail-back 容错 |
 | Spring 集成 | 注解、自动装配与 Starter |
+
+## 主链路
+
+<p align="center"><img src="assets/images/readme/workflow.png" alt="产品主链路" width="100%"></p>
 
 ## 快速开始
 
@@ -42,7 +48,13 @@ mvn clean install
 
 先启动 example-provider，再运行 example-consumer。Spring Boot 示例位于对应的 springboot-provider / springboot-consumer 模块。
 
+## 技术栈
+
+<p align="center"><img src="assets/images/readme/tech-stack.png" alt="技术栈分层" width="100%"></p>
+
 ## 架构
+
+<p align="center"><img src="assets/images/readme/architecture.png" alt="系统架构" width="100%"></p>
 
 ```text
 Consumer Interface → Dynamic Proxy → Service Discovery → Load Balancer
@@ -51,6 +63,8 @@ Consumer Interface → Dynamic Proxy → Service Discovery → Load Balancer
 ```
 
 ## 模块
+
+<p align="center"><img src="assets/images/readme/structure.png" alt="仓库目录结构" width="100%"></p>
 
 | 模块 | 职责 |
 |---|---|
@@ -73,6 +87,22 @@ Consumer Interface → Dynamic Proxy → Service Discovery → Load Balancer
 4. VertxTcpClient / TcpServerHandler
 5. SpiLoader 与各 Factory
 6. Starter bootstrap 与 examples
+
+## 原始资料画册
+
+| 框架结构 | 教程资料 |
+|:---:|:---:|
+| [![框架结构](docs/structure.jpg)](docs/structure.jpg) | [![教程资料](docs/tutorial.jpg)](docs/tutorial.jpg) |
+
+## 视觉画册
+
+点击缩略图可查看原始矢量图：
+
+| | |
+|:---:|:---:|
+| [![Features](assets/images/readme/features.png)](assets/images/readme/features.svg)<br>**Features** · 核心能力 | [![Architecture](assets/images/readme/architecture.png)](assets/images/readme/architecture.svg)<br>**Architecture** · 系统边界 |
+| [![Tech Stack](assets/images/readme/tech-stack.png)](assets/images/readme/tech-stack.svg)<br>**Tech Stack** · 技术分层 | [![Workflow](assets/images/readme/workflow.png)](assets/images/readme/workflow.svg)<br>**Workflow** · 主链路 |
+| [![Structure](assets/images/readme/structure.png)](assets/images/readme/structure.svg)<br>**Structure** · 仓库地图 | |
 
 ## 维护者
 

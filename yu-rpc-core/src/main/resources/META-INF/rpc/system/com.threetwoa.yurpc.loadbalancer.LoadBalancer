@@ -1,0 +1,3 @@
+roundRobin=com.threetwoa.yurpc.loadbalancer.RoundRobinLoadBalancer
+random=com.threetwoa.yurpc.loadbalancer.RandomLoadBalancer
+consistentHash=com.threetwoa.yurpc.loadbalancer.ConsistentHashLoadBalancer

@@ -1,34 +1,36 @@
-<div align="center">
+<p align="center">
+  <h1 align="center">Threetwoa RPC</h1>
+  <p align="center"><em>一个可扩展、可观察的 Java RPC 学习与实践框架</em></p>
+  <p align="center">覆盖服务注册发现、动态代理、序列化、负载均衡、重试容错、自定义协议与 Spring Boot Starter。</p>
+</p>
 
-<img src="assets/images/readme/banner.png" alt="Yu RPC banner" width="100%" />
+<p align="center"><img src="assets/images/readme/banner.png" alt="Threetwoa RPC Banner" width="100%"></p>
 
-# Yu RPC
+<p align="center">
+  <img src="https://img.shields.io/badge/Java-8%2B-2563eb?style=for-the-badge&labelColor=0f172a">
+  <img src="https://img.shields.io/badge/Transport-Vert.x-8b5cf6?style=for-the-badge&labelColor=0f172a">
+  <img src="https://img.shields.io/badge/Maintainer-threetwoa-10b981?style=for-the-badge&labelColor=0f172a">
+</p>
 
-### 从零实现的高性能 Java RPC 框架
+<p align="center"><a href="#功能">功能</a> · <a href="#快速开始">快速开始</a> · <a href="#架构">架构</a> · <a href="#模块">模块</a> · <a href="#扩展点">扩展点</a></p>
 
-用于学习与实践 RPC 核心机制的模块化框架，覆盖注册发现、序列化、负载均衡、容错、Starter 与示例。
+---
 
-[核心能力](#核心能力) · [快速开始](#快速开始) · [工程地图](#工程地图) · [参与贡献](#参与贡献)
+## 为什么需要这个框架
 
-</div>
+它把一次 Java 方法调用拆解为可阅读、可替换的 RPC 流水线，适合验证框架设计和分布式通信机制。当前边界是学习与二次开发：不承诺生产级治理、跨语言协议兼容或多租户隔离。
 
-> [!NOTE]
-> 这是基于 [liyupi/yu-rpc](https://github.com/liyupi/yu-rpc) 的学习增强仓库。项目版权与原始业务代码归原作者及贡献者所有；本仓主要补充工程化文档、README 导航和视觉资产。
+## 功能
 
-## 为什么值得关注
-
-- 可运行的真实工程：包含业务界面、服务或基础设施的完整实现。
-- 清晰的学习主线：先理解产品能力，再沿工程地图进入关键模块。
-- 可持续同步上游：upstream 指向原仓库，origin 指向本增强仓库。
-- 面向贡献者：已补齐 Agent 协作、上下文、交付与决策记录骨架。
-
-## 核心能力
-
-| 维度 | 内容 |
+| 能力 | 实现 |
 |---|---|
-| 产品定位 | 从零实现的高性能 Java RPC 框架 |
-| 工程实现 | Java · Vert.x · ZooKeeper · SPI · Spring Boot |
-| 源码导航 | yu-rpc-core/ 核心 · yu-rpc-easy/ 易用层 · yu-rpc-spring-boot-starter/ Starter |
+| 服务调用 | JDK 动态代理将接口调用转换为 RPC 请求 |
+| 注册发现 | 本地注册表、Etcd 与 ZooKeeper |
+| 传输协议 | Vert.x TCP、自定义消息头、半包粘包处理 |
+| 扩展机制 | 键值型 SPI，用户扩展优先于系统默认实现 |
+| 流量治理 | 随机、轮询、一致性哈希负载均衡 |
+| 稳定性 | 重试策略与 fail-fast / fail-safe / fail-over / fail-back 容错 |
+| Spring 集成 | 注解、自动装配与 Starter |
 
 ## 快速开始
 
@@ -38,34 +40,40 @@ cd fork-yu-rpc
 mvn clean install
 ```
 
-> 启动前请检查配置与环境变量示例。数据库、对象存储、模型服务或第三方平台密钥必须使用本地环境变量。
+先启动 example-provider，再运行 example-consumer。Spring Boot 示例位于对应的 springboot-provider / springboot-consumer 模块。
 
-## 工程地图
+## 架构
 
-| 入口 | 用途 |
-|---|---|
-| CONTEXT.md | 项目边界、读码顺序与关键术语 |
-| AGENTS.md | Agent / 贡献者协作约定 |
-| docs/agents/domain.md | 领域与模块说明 |
-| docs/output/prd/readme-diagrams/ | README 视觉契约 |
-| preview-readme.html | 本地 README 预览壳 |
-
-## 上游同步
-
-```bash
-git fetch upstream
-git checkout master
-git merge upstream/master
-git push origin master
+```text
+Consumer Interface → Dynamic Proxy → Service Discovery → Load Balancer
+  → Retry → TCP Protocol → Provider Reflection Call
+  → Response Decode → Tolerant Strategy → Consumer Result
 ```
 
-## 参与贡献
+## 模块
 
-1. 从 master 创建短生命周期分支。
-2. 一次提交只解决一个主题。
-3. 功能变更先写 Issue / PRD；缺陷附复现与验证结果。
-4. 提交前运行受影响模块的测试、构建或静态检查。
+| 模块 | 职责 |
+|---|---|
+| yu-rpc-core | 配置、协议、传输、注册中心、SPI 与治理策略 |
+| yu-rpc-easy | 最小化入门实现 |
+| yu-rpc-spring-boot-starter | Spring Boot 自动装配与注解 |
+| example-common | 消费者和提供者共享契约 |
+| example-provider / consumer | 原生调用示例 |
+| example-springboot-* | Spring Boot 集成示例 |
 
-## 致谢与许可
+## 扩展点
 
-感谢 [程序员鱼皮](https://github.com/liyupi) 与所有上游贡献者。许可证以仓库中的 LICENSE 及上游声明为准。
+在 META-INF/rpc/custom/ 下用“key=实现类全名”注册自定义序列化器、注册中心、负载均衡、重试或容错实现。自定义目录后加载，因此同名 key 会覆盖系统默认值。
+
+## 阅读顺序
+
+1. RpcApplication 与 RpcConfig
+2. ServiceProxy
+3. ProtocolMessageEncoder / Decoder
+4. VertxTcpClient / TcpServerHandler
+5. SpiLoader 与各 Factory
+6. Starter bootstrap 与 examples
+
+## 维护者
+
+二次开发维护者：[threetwoa](https://github.com/threetwoa)。上游来源保留在 Git remote 的 upstream 中，许可证以 LICENSE 为准。

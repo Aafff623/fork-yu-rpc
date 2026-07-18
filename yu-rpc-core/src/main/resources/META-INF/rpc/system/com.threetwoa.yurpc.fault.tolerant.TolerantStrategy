@@ -1,0 +1,4 @@
+failBack=com.threetwoa.yurpc.fault.tolerant.FailBackTolerantStrategy
+failFast=com.threetwoa.yurpc.fault.tolerant.FailFastTolerantStrategy
+failOver=com.threetwoa.yurpc.fault.tolerant.FailOverTolerantStrategy
+failSafe=com.threetwoa.yurpc.fault.tolerant.FailSafeTolerantStrategy

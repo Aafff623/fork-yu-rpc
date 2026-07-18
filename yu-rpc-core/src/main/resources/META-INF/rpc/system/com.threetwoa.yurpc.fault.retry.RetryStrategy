@@ -1,0 +1,2 @@
+no=com.threetwoa.yurpc.fault.retry.NoRetryStrategy
+fixedInterval=com.threetwoa.yurpc.fault.retry.FixedIntervalRetryStrategy

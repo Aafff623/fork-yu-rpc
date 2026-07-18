@@ -1,0 +1,2 @@
+body{margin:0;background:#07111f;color:#dbeafe;font:14px system-ui}header{position:sticky;top:0;display:flex;gap:16px;align-items:center;padding:12px 20px;background:#0b1729e8;border-bottom:1px solid #1d344d}button{margin-left:auto;padding:7px 12px;border:1px solid #21d4c2;border-radius:8px;background:#0c2435;color:#dff}main{box-sizing:border-box;max-width:1080px;min-height:100vh;margin:auto;padding:48px;background:#fff;color:#1f2328}
+

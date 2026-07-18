@@ -1,154 +1,71 @@
-# 鱼皮 RPC 框架
+<div align="center">
 
-> 从 0 到 1，带你开发自己的 RPC 框架
->
-> 鱼皮原创项目教程系列：[https://www.codefather.cn/post/1797431216467001345](https://www.codefather.cn/post/1797431216467001345)
+<img src="assets/images/readme/banner.png" alt="Yu RPC banner" width="100%" />
 
+# Yu RPC
 
+### 从零实现的高性能 Java RPC 框架
 
-## 项目介绍
+用于学习与实践 RPC 核心机制的模块化框架，覆盖注册发现、序列化、负载均衡、容错、Starter 与示例。
 
-基于 Java + Etcd + Vert.x 的高性能 RPC 框架，用新颖的技术栈从 0 到 1 带大家开发轮子。教程由浅入深，可以学习并实践基于 Vert.x 的网络服务器、序列化器、基于 Etcd 和 ZooKeeper 的注册中心、反射、动态代理、自定义网络协议、多种设计模式（单例 / 工厂 / 装饰者等）、负载均衡器设计、重试和容错机制、Spring Boot Starter 注解驱动开发等，大幅提升架构设计能力。
+[核心能力](#核心能力) · [快速开始](#快速开始) · [工程地图](#工程地图) · [参与贡献](#参与贡献)
 
-项目分为基础版和扩展版：
+</div>
 
-- 基础版只需学几个小时，就能写在简历上的小项目~
-- 扩展版将是充满亮点的技术类项目，搭配一个业务项目，让简历更有竞争力。
+> [!NOTE]
+> 这是基于 [liyupi/yu-rpc](https://github.com/liyupi/yu-rpc) 的学习增强仓库。项目版权与原始业务代码归原作者及贡献者所有；本仓主要补充工程化文档、README 导航和视觉资产。
 
-> 开始学习或了解详情：[手写 RPC 框架](https://www.codefather.cn/course/1768543954720022530)
->
-> 开源地址：https://github.com/liyupi/yu-rpc
->
-> [教程第一章可免费学习](https://www.codefather.cn/course/1768543954720022530/section/1768545847093518337)
->
-> [导学视频 - RPC 讲解](https://www.bilibili.com/video/BV1AJ4m1H7XL)
+## 为什么值得关注
 
+- 可运行的真实工程：包含业务界面、服务或基础设施的完整实现。
+- 清晰的学习主线：先理解产品能力，再沿工程地图进入关键模块。
+- 可持续同步上游：upstream 指向原仓库，origin 指向本增强仓库。
+- 面向贡献者：已补齐 Agent 协作、上下文、交付与决策记录骨架。
 
+## 核心能力
 
-## 项目展示
+| 维度 | 内容 |
+|---|---|
+| 产品定位 | 从零实现的高性能 Java RPC 框架 |
+| 工程实现 | Java · Vert.x · ZooKeeper · SPI · Spring Boot |
+| 源码导航 | yu-rpc-core/ 核心 · yu-rpc-easy/ 易用层 · yu-rpc-spring-boot-starter/ Starter |
 
-目录结构：
+## 快速开始
 
-![](./docs/tutorial.jpg)
+```bash
+git clone https://github.com/Aafff623/fork-yu-rpc.git
+cd fork-yu-rpc
+mvn clean install
+```
 
+> 启动前请检查配置与环境变量示例。数据库、对象存储、模型服务或第三方平台密钥必须使用本地环境变量。
 
-详细的保姆级文字教程：
+## 工程地图
 
-![](./docs/structure.jpg)
+| 入口 | 用途 |
+|---|---|
+| CONTEXT.md | 项目边界、读码顺序与关键术语 |
+| AGENTS.md | Agent / 贡献者协作约定 |
+| docs/agents/domain.md | 领域与模块说明 |
+| docs/output/prd/readme-diagrams/ | README 视觉契约 |
+| preview-readme.html | 本地 README 预览壳 |
 
+## 上游同步
 
+```bash
+git fetch upstream
+git checkout master
+git merge upstream/master
+git push origin master
+```
 
-## 技术选型
+## 参与贡献
 
-### 后端
+1. 从 master 创建短生命周期分支。
+2. 一次提交只解决一个主题。
+3. 功能变更先写 Issue / PRD；缺陷附复现与验证结果。
+4. 提交前运行受影响模块的测试、构建或静态检查。
 
-后端技术以 Java 为主，但所有的思想和设计都是可以复用到其他语言的，代码不同罢了。
+## 致谢与许可
 
-- ⭐️ Vert.x 框架
-- ⭐️ Etcd 云原生存储中间件（jetcd 客户端）
-- ZooKeeper 分布式协调工具（curator 客户端）
-- ⭐️ SPI 机制
-- ⭐️ 多种序列化器
-  - JSON 序列化
-  - Kryo 序列化
-  - Hessian 序列化
-- ⭐️ 多种设计模式
-  - 双检锁单例模式
-  - 工厂模式
-  - 代理模式
-  - 装饰者模式
-- ⭐️ Spring Boot Starter 开发
-- 反射和注解驱动
-- Guava Retrying 重试库
-- JUnit 单元测试
-- Logback 日志库
-- Hutool、Lombok 工具库
-
-
-
-## 源码目录
-
-- yu-rpc-core：鱼皮 RPC 框架核心代码
-- yu-rpc-easy：鱼皮 RPC 框架简易版（适合新手入门）
-- example-common：示例代码公用模块
-- example-consumer：示例服务消费者
-- example-provider：示例服务提供者
-- example-springboot-consumer：示例服务消费者（Spring Boot 框架）
-- example-springboot-provider：示例服务提供者（Spring Boot 框架）
-- yu-rpc-spring-boot-starter：注解驱动的 RPC 框架，可在 Spring Boot 项目中快速使用
-
-
-
-## 项目教程大纲
-
-这个项目内容非常多，大家可以看看有没有自己想学的知识点。
-
-
-
-### 第一章：RPC 框架简易版
-
-1. RPC 基本概念和作用
-2. RPC 框架实现思路 | 基本设计
-3. RPC 框架实现思路 | 扩展设计
-4. 简易版 RPC 开发 | 项目初始化
-5. 简易版 RPC 开发 | web 服务器
-6. 简易版 RPC 开发 | 本地服务注册器
-7. 简易版 RPC 开发 | 序列化器
-8. 简易版 RPC 开发 | 请求处理器
-9. 简易版 RPC 开发 | 消费者代理
-10. 简易版 RPC 开发 | 测试验证
-
-
-
-### 第二章：RPC 框架扩展版
-
-1. 全局配置加载 | 扩展版项目初始化
-2. 全局配置加载 | 配置加载实现
-3. 全局配置加载 | 维护全局配置对象
-4. 接口 Mock 设计实现
-5. 序列化器 | 主流序列化器对比
-6. 序列化器 | 多种序列化器实现
-7. 序列化器 | SPI 机制
-8. 序列化器 | 可扩展序列化器实现（SPI + 工厂模式）
-9. 注册中心 | 注册中心核心能力
-10. 注册中心 | 注册中心技术选型
-11. 注册中心 | Etcd 云原生中间件入门
-12. 注册中心 | 基于 Etcd 实现注册中心
-13. 注册中心 | 可扩展注册中心实现（SPI + 工厂模式）
-14. 注册中心优化 | 心跳检测和续期机制
-15. 注册中心优化 | 服务节点下线机制
-16. 注册中心优化 | 消费端服务缓存
-17. 注册中心优化 | 缓存更新（Etcd 监听机制）
-18. 注册中心优化 | ZooKeeper 注册中心实现
-19. 自定义协议 | 需求分析及方案设计
-20. 自定义协议 | 消息结构设计（参考 Dubbo）
-21. 自定义协议 | 网络传输设计（基于 Vert.x 实现 TCP 服务器）
-22. 自定义协议 | 编码 / 解码器
-23. 自定义协议 | TCP 请求处理器
-24. 自定义协议 | TCP 请求客户端
-25. 自定义协议 | 粘包半包问题分析
-26. 自定义协议 | 使用 Vert.x 解决粘包半包问题
-27. 自定义协议 | 客户端代码优化（装饰者模式）
-28. 负载均衡 | 负载均衡概念和常用算法
-29. 负载均衡 | 一致性 Hash
-30. 负载均衡 | 多种负载均衡器实现
-31. 负载均衡 | 可扩展负载均衡器实现（SPI + 工厂模式）
-32. 重试机制 | 重试等待策略
-33. 重试机制 | 重试方案设计
-34. 重试机制 | 多种重试策略实现
-35. 重试机制 | 可扩展重试策略实现（SPI + 工厂模式）
-36. 容错机制 | 容错策略和实现方式
-37. 容错机制 | 容错方案设计
-38. 容错机制 | 多种容错策略实现
-39. 容错机制 | 可扩展容错策略实现（SPI + 工厂模式）
-40. 启动机制 | 框架快速启动类
-41. 启动机制 | 注解驱动设计
-42. 启动机制 | Spring Boot Starter 注解驱动实现
-43. 项目扩展思路
-
-
-
-## 完整项目教程学习
-
-点击 [加入编程导航](https://yuyuanweb.feishu.cn/wiki/SDtMwjR1DituVpkz5MLc3fZLnzb) ，鱼皮往期 [所有原创项目](https://yuyuanweb.feishu.cn/wiki/SePYwTc9tipQiCktw7Uc7kujnCd) 均可学习。
-
+感谢 [程序员鱼皮](https://github.com/liyupi) 与所有上游贡献者。许可证以仓库中的 LICENSE 及上游声明为准。

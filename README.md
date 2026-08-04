@@ -104,6 +104,55 @@ Consumer Interface → Dynamic Proxy → Service Discovery → Load Balancer
 | [![Tech Stack](assets/images/readme/tech-stack.png)](assets/images/readme/tech-stack.svg)<br>**Tech Stack** · 技术分层 | [![Workflow](assets/images/readme/workflow.png)](assets/images/readme/workflow.svg)<br>**Workflow** · 主链路 |
 | [![Structure](assets/images/readme/structure.png)](assets/images/readme/structure.svg)<br>**Structure** · 仓库地图 | |
 
+
+## Preview
+
+本仓为单产品应用，**不单独建设 Preview 资产站**（无组件 Gallery / demo 墙）。本地浏览 README 排版请用预览壳：
+
+```bash
+python -m http.server 4316
+# http://127.0.0.1:4316/preview-readme.html
+```
+
+> `preview-shell.png`：本仓声明省略（无 Preview 站可截）。
+
+## Showcase
+
+推荐主链路：接口调用 → 动态代理 → 服务发现 → 负载均衡 → 重试 → TCP 编解码 → 反射调用 → 容错
+
+真机截图槽位（待 Playwright 补齐）：
+
+| 槽位 | 文件 | 状态 |
+|---|---|---|
+| 入口 / 主界面 | `assets/images/readme/showcase-01.png` | 占位 |
+| 核心流程 | `assets/images/readme/showcase-02.png` | 占位 |
+| 结果 / 交付 | `assets/images/readme/showcase-03.png` | 占位 |
+
+## 仓库结构
+
+```text
+fork-yu-rpc/
+├── yu-rpc-core/                  # 协议、注册、负载、容错
+├── yu-rpc-easy/                  # 最小实现
+├── yu-rpc-spring-boot-starter/   # Spring 集成
+├── example-*/                    # 示例与集成测试
+├── docs/agents|adr|glossary|knowledge|outputs/
+├── assets/images/readme/
+├── AGENTS.md · CLAUDE.md · CONTEXT.md · LANGUAGES.md
+└── preview-readme.{html,css,js}  # 端口 4316
+```
+
+## Key docs
+
+| 文档 | 说明 |
+|---|---|
+| [CONTEXT.md](CONTEXT.md) | 领域事实与边界 |
+| [LANGUAGES.md](LANGUAGES.md) | 共享用词 |
+| [AGENTS.md](AGENTS.md) | Agent 硬约束 |
+| [docs/agents/workflow.md](docs/agents/workflow.md) | 任务流 |
+| [docs/outputs/prd/readme-diagrams/](docs/outputs/prd/readme-diagrams/) | README 配图 brief / prompts |
+| [assets/README.md](assets/README.md) | 媒体约定 |
+
 ## 维护者
 
 原作者：**李鱼皮（[liyupi](https://github.com/liyupi)）**。二次开发维护者：[threetwoa](https://github.com/threetwoa)。上游项目为 [liyupi/yu-rpc](https://github.com/liyupi/yu-rpc)，许可证以 LICENSE 及上游版权声明为准。

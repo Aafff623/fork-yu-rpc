@@ -1,2 +1,56 @@
-body{margin:0;background:#07111f;color:#dbeafe;font:14px system-ui}header{position:sticky;top:0;display:flex;gap:16px;align-items:center;padding:12px 20px;background:#0b1729e8;border-bottom:1px solid #1d344d}button{margin-left:auto;padding:7px 12px;border:1px solid #21d4c2;border-radius:8px;background:#0c2435;color:#dff}main{box-sizing:border-box;max-width:1080px;min-height:100vh;margin:auto;padding:48px;background:#fff;color:#1f2328}
-
+/* preview-readme.css · README 本地预览壳 */
+:root {
+  --ink: #e8e8f0;
+  --ink-dim: #a0a0b8;
+  --accent: #38bdf8;
+  --accent-2: #818cf8;
+  --bg-0: #0f172a;
+  --bg-1: #1e293b;
+  --panel: #1e293b;
+  --rule: rgba(255, 255, 255, 0.12);
+  --code-bg: #0b1220;
+}
+* { box-sizing: border-box; }
+html, body {
+  margin: 0; padding: 0;
+  background:
+    radial-gradient(900px 480px at 15% 0%, rgba(56, 189, 248, 0.16), transparent 60%),
+    radial-gradient(800px 420px at 90% 100%, rgba(129, 140, 248, 0.14), transparent 55%),
+    var(--bg-0);
+  color: var(--ink);
+  font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-size: 16px; line-height: 1.65;
+}
+.toolbar {
+  position: sticky; top: 0; z-index: 10;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 20px;
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 0.82));
+  border-bottom: 1px solid var(--rule);
+  backdrop-filter: blur(6px);
+}
+.toolbar-left, .toolbar-right { display: flex; align-items: center; gap: 12px; }
+#reload-btn {
+  font: inherit; padding: 6px 14px; border: 1px solid var(--accent);
+  background: var(--accent); color: #0f172a; border-radius: 4px; cursor: pointer; font-weight: 600;
+}
+#reload-btn:hover { filter: brightness(1.08); }
+.status { font-size: 13px; color: var(--accent-2); min-width: 4em; }
+.status[data-state='loading'] { color: #c9a16a; }
+.status[data-state='error'] { color: #ff6b6b; font-weight: 600; }
+.meta { font-size: 13px; color: var(--ink-dim); }
+.canvas { max-width: 960px; margin: 32px auto 64px; padding: 0 24px; }
+.paper {
+  background: var(--bg-1); border: 1px solid var(--rule); border-radius: 8px;
+  padding: 40px 48px 56px; box-shadow: 0 18px 48px -24px rgba(0, 0, 0, 0.55); color: var(--ink);
+}
+.markdown-body { background: transparent; color: var(--ink); }
+.markdown-body h1, .markdown-body h2, .markdown-body h3 { color: var(--ink); border-color: var(--rule); }
+.markdown-body a { color: var(--accent); }
+.markdown-body code, .markdown-body pre { background: var(--code-bg) !important; }
+.markdown-body table tr { background: transparent; border-top-color: var(--rule); }
+.markdown-body table tr:nth-child(2n) { background: rgba(255, 255, 255, 0.03); }
+.markdown-body img { background: transparent; }
+.error-box { padding: 24px; border: 1px dashed var(--accent); border-radius: 6px; background: rgba(56, 189, 248, 0.08); }
+.footnote { text-align: center; padding: 0 0 32px; color: var(--ink-dim); font-size: 13px; }
+@media (max-width: 720px) { .paper { padding: 28px 20px 40px; } .canvas { margin-top: 16px; } }

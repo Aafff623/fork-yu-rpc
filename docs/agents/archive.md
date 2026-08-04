@@ -4,7 +4,7 @@
 
 - `docs/adr/`：仍影响当前系统的架构决策。
 - `docs/commit-history/`：跨文件提交的背景、验证和风险。
-- `docs/output/handoff/`：已经执行的任务合同与交付证据。
+- `docs/outputs/handoff/`：已经执行的任务合同与交付证据。
 - `docs/knowledge/`：可迁移、可复用的项目知识。
 
 ## 归档条件

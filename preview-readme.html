@@ -1,1 +1,38 @@
-<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Yu RPC README Preview</title><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@5/github-markdown.min.css"><link rel="stylesheet" href="./preview-readme.css"></head><body><header><strong>Yu RPC</strong><button id="reload">重新加载</button><span id="status">准备加载</span></header><main id="content" class="markdown-body"></main><script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script><script src="./preview-readme.js"></script></body></html>
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="utf-8">
+  <!-- Threetwoa RPC · 本地 README 预览壳（非产品站） -->
+  <title>Threetwoa RPC · README 预览</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@5/github-markdown-light.min.css">
+  <link rel="stylesheet" href="./preview-readme.css">
+  <script>
+    window.__PREVIEW_README__ = {
+      title: 'Threetwoa RPC · README 预览',
+      port: 4316,
+      hint: '请在仓库根执行 python -m http.server 4316，然后打开本页。',
+      footer: '本壳仅渲染 README.md · Showcase 见 assets/images/readme/ · 无独立 Preview 站'
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js" defer></script>
+  <script src="./preview-readme.js" defer></script>
+</head>
+<body>
+  <header class="toolbar" role="toolbar" aria-label="README 预览工具栏">
+    <div class="toolbar-left">
+      <button id="reload-btn" type="button">重新加载</button>
+      <output id="status" class="status" aria-live="polite">就绪</output>
+    </div>
+    <div class="toolbar-right">
+      <span id="meta" class="meta">README.md</span>
+    </div>
+  </header>
+  <main class="canvas">
+    <article id="readme" class="markdown-body paper" aria-live="polite"></article>
+  </main>
+  <footer class="footnote">
+    <small id="footer-text">本壳仅用于本地预览 README.md；非产品页面。</small>
+  </footer>
+</body>
+</html>

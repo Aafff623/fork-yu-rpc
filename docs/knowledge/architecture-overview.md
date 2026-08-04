@@ -23,7 +23,7 @@ Java、Vert.x TCP、Etcd、ZooKeeper、SPI、Spring Boot。
 
 ## 运行时依赖与失败模型
 
-SPI 文件名必须与接口全名一致；requestId 负责异步响应关联；注册中心测试依赖外部 Etcd/ZooKeeper；没有根聚合 POM。外部依赖不可用时，系统应返回明确失败或采用文档化的保守降级；不得产生看似成功但不可审计的结果。
+SPI 文件名必须与接口全名一致；requestId 由客户端生成并在响应中校验；注册中心集成测试依赖外部 Etcd/ZooKeeper（默认 @Ignore）；根目录提供聚合 POM（`mvn -DskipTests package` 全量构建）。外部依赖不可用时，系统应返回明确失败或采用文档化的保守降级；不得产生看似成功但不可审计的结果。
 
 ## 变更检查表
 

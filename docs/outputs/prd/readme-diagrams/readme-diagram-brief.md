@@ -16,3 +16,9 @@ assets/images/readme/banner.png：3:1 页首视觉，优先级 P0。
 
 无水印、无错误文字、3:1 横幅、项目意象准确、压缩后仍清晰。
 
+
+
+## 加速模式占位（2026-08-04）
+
+- 跳过生图：`preview-shell.png` / `showcase-*.png` 仅占位，不调用 MiniMax。
+- 契约图（banner/features/architecture/tech-stack/workflow/structure）已存在则沿用。

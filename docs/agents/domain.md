@@ -26,4 +26,4 @@
 
 ## 已知风险
 
-SPI 文件名必须与接口全名一致；requestId 负责异步响应关联；注册中心测试依赖外部 Etcd/ZooKeeper；没有根聚合 POM。
+SPI 文件名必须与接口全名一致；requestId 负责异步响应关联（客户端校验响应归属）；注册中心集成测试依赖外部 Etcd/ZooKeeper，已标记为手动运行；根聚合 POM 仅做模块聚合，不做 parent 继承。

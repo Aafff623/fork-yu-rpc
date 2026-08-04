@@ -3,14 +3,14 @@
 ## 标准路径
 
 ```text
-GitHub Issue
-  → report（不确定性较高时）
-  → PRD / acceptance criteria
-  → handoff
-  → implementation
-  → targeted verification
-  → review
-  → commit + commit-history
+Issue（.scratch/<feature>/ 或 GitHub）
+  → docs/outputs/report/{theme}/     # 可选调研
+  → docs/outputs/prd/{theme}/prd.md  # 需 approve
+  → docs/outputs/handoff/{theme}/…   # 覆盖式
+  → implementation → targeted verification
+  → awaiting-review【停】
+  → commit + docs/outputs/commit-history/{branch}/YYYY-MM-DD.md
+  → archive（分支合并后）
 ```
 
 ## 规模判断
@@ -22,8 +22,8 @@ GitHub Issue
 
 ## 分支与提交
 
-一次提交只表达一个可回滚主题。包目录迁移与引用更新必须同提交；生成物、真实密钥和本地缓存不得入库。
+一次提交只表达一个可回滚主题。生成物、真实密钥和本地缓存不得入库。
 
 ## 当前项目验证
 
-`mvn -f yu-rpc-core/pom.xml -DskipTests package；按依赖顺序验证其他模块`
+根目录或按模块 `mvn -DskipTests package`；Etcd 集成测试默认跳过

@@ -33,5 +33,5 @@
 | `docs/outputs/handoff/` | 交接快照（覆盖式） |
 | `docs/outputs/commit-history/` | 分支攒批摘要 |
 | Preview 站 | **本仓不适用**（单产品；无资产 Gallery） |
-| Showcase | 产品主链路实机截图（`showcase-*.png`，可占位） |
+| Showcase | 产品主链路示意或真机截图（`showcase-*.png`；本仓现为概念示意） |
 | README 预览壳 | `preview-readme.html`，端口 4316 |

@@ -113,20 +113,18 @@ Issue（.scratch/<feature>/ 或 GitHub Issue）
 新会话须提供 **theme + task** 或 **Issue / `.scratch/<feature>/` 路径**。  
 缺失时立即停止并请用户补全；禁止扫全库猜「最近在忙什么」。
 
-## 7. Agent skills（matt-pocock 决策）
+## Agent skills
 
-### Issue tracker
+使用 Matt Pocock 系 skill（`to-issues` / `to-prd` / `triage` / `diagnose` / `tdd` 等）前，先读：
 
-本地 `.scratch/<feature>/` markdown（全局默认）。见 `docs/agents/issue-tracker.md`。
+| 配置 | 路径 |
+|---|---|
+| Issue tracker | `docs/agents/issue-tracker.md`（本地 `.scratch/<feature>/`） |
+| Triage 标签 | `docs/agents/triage-labels.md`（五 canonical） |
+| Domain | `docs/agents/domain.md`（单 CONTEXT + `docs/adr/`） |
+| 任务流 | `docs/agents/workflow.md` |
+| 交付 | `docs/agents/deliver.md` |
+| 归档 | `docs/agents/archive.md` |
+| 语气 | `docs/agents/voice.md` |
 
-### Triage labels
-
-五种 canonical：`needs-triage` / `needs-info` / `ready-for-agent` / `ready-for-human` / `wontfix`。见 `docs/agents/triage-labels.md`。
-
-### Domain docs
-
-单上下文：根 `CONTEXT.md` + `docs/adr/`。见 `docs/agents/domain.md`。
-
-### Output voice
-
-项目输出语气与回答格式。见 `docs/agents/voice.md`。
+领域事实唯一入口：根 `CONTEXT.md`。共享用词：根 `LANGUAGES.md`。勿再建 `docs/agents/language.md` / `context.md`。

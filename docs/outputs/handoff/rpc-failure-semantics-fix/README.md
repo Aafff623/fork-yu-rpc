@@ -3,6 +3,7 @@
 - 日期：2026-07-19
 - 决策依据：`docs/adr/0002-close-rpc-failure-and-lifecycle-semantics.md`
 - 分支：master（基线 f46a1c4，未提交）
+- **状态：implementation WIP（工作区脏改动，project-init 不提交本主题）**
 
 ## 范围
 

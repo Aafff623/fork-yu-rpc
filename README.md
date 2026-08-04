@@ -12,7 +12,7 @@
   <img src="https://img.shields.io/badge/Maintainer-threetwoa-10b981?style=for-the-badge&labelColor=0f172a">
 </p>
 
-<p align="center"><a href="#功能">功能</a> · <a href="#快速开始">快速开始</a> · <a href="#架构">架构</a> · <a href="#模块">模块</a> · <a href="#扩展点">扩展点</a></p>
+<p align="center"><a href="#功能">功能</a> · <a href="#快速开始">快速开始</a> · <a href="#preview">Preview</a> · <a href="#showcase">Showcase</a> · <a href="#架构">架构</a> · <a href="#模块">模块</a> · <a href="#扩展点">扩展点</a></p>
 
 ---
 
@@ -92,7 +92,7 @@ Consumer Interface → Dynamic Proxy → Service Discovery → Load Balancer
 
 | 框架结构 | 教程资料 |
 |:---:|:---:|
-| [![框架结构](docs/structure.jpg)](docs/structure.jpg) | [![教程资料](docs/tutorial.jpg)](docs/tutorial.jpg) |
+| [![框架结构](assets/images/readme/original-structure.jpg)](assets/images/readme/original-structure.jpg) | [![教程资料](assets/images/readme/original-tutorial.jpg)](assets/images/readme/original-tutorial.jpg) |
 
 ## 视觉画册
 
@@ -120,13 +120,11 @@ python -m http.server 4316
 
 推荐主链路：接口调用 → 动态代理 → 服务发现 → 负载均衡 → 重试 → TCP 编解码 → 反射调用 → 容错
 
-真机截图槽位（待 Playwright 补齐）：
+本仓无 Web 产品面；下图为**概念示意**（入口 → 调用链 → 容错）。真机终端截图可后续用 Playwright 替换同名文件。
 
-| 槽位 | 文件 | 状态 |
-|---|---|---|
-| 入口 / 主界面 | `assets/images/readme/showcase-01.png` | 占位 |
-| 核心流程 | `assets/images/readme/showcase-02.png` | 占位 |
-| 结果 / 交付 | `assets/images/readme/showcase-03.png` | 占位 |
+| 入口 / Provider·Consumer | 核心调用链 | 结果 / 容错 |
+|:---:|:---:|:---:|
+| ![showcase-01](assets/images/readme/showcase-01.png) | ![showcase-02](assets/images/readme/showcase-02.png) | ![showcase-03](assets/images/readme/showcase-03.png) |
 
 ## 仓库结构
 

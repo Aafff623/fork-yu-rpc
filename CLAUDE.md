@@ -28,6 +28,10 @@ python -m http.server 4316
 2. `CONTEXT.md` + `LANGUAGES.md`（领域与用词）
 3. `docs/agents/*` 与 `docs/outputs/{report,prd,handoff}/`（任务流与产物）
 
+## Agent skills
+
+Matt Pocock 系 skill 配置入口见根 `AGENTS.md` → `## Agent skills`（`issue-tracker` / `triage-labels` / `domain` / `workflow` / `deliver` / `archive` / `voice`）。
+
 ## 偏好归档
 
 - 维护者标识：`threetwoa`；上游仅在来源与许可证语境保留。

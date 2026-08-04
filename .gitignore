@@ -3,6 +3,10 @@
 *.class
 .idea
 
+# Maven / local Agent scratch
+**/target/
+.scratch/
+
 # Log file
 *.log
 

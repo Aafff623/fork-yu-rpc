@@ -37,12 +37,15 @@ fork-yu-rpc/
 - 当前二开维护者为 `threetwoa`。
 - `origin` 指向增强仓，`upstream` 指向原始上游。
 - Agent 资产：根四件套 + `docs/agents` 最小集 + `docs/outputs` + `assets/` + 五份 `.cursor/rules/*.mdc`。
-- README 契约图已在 `assets/images/readme/`；`preview-shell.png` / `showcase-*.png` 加速模式跳过生图，仅占位。
-- Issue tracker：本地 `.scratch/<feature>/`；单 CONTEXT + `docs/adr/`。
+- README 契约图（banner / features / architecture / tech-stack / workflow / structure）已在 `assets/images/readme/`。
+- `preview-shell.png`：本仓声明省略 Preview 站（单产品）。
+- Showcase：概念示意或真机槽位见 `assets/images/readme/showcase-*.png`；无 Web UI 时不以假界面冒充产品截图。
+- Issue tracker：本地 `.scratch/<feature>/`；单 CONTEXT + `docs/adr/`（含 ADR-0000 采用 ADR）。
+- **失败语义（ADR-0002 / handoff）**：决策与交接文档已入库；**实现代码仍为工作区 WIP，未作为 shipped 提交**——勿把 canvas / ADR 叙述当成代码已合并。
 
 ## 关键风险
 
-SPI 文件名须与接口全名一致；TCP 一连接一请求；fail-back 需接入方降级；注册测试依赖外部 Etcd
+SPI 文件名须与接口全名一致；TCP 一连接一请求；fail-back 需接入方降级；注册测试依赖外部 Etcd；失败语义修复未入库前勿宣称「已闭合实现」
 
 ## 推荐阅读顺序
 

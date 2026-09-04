@@ -28,7 +28,7 @@ public class TcpServerHandler implements Handler<NetSocket> {
      */
     @Override
     public void handle(NetSocket socket) {
-        TcpBufferHandlerWrapper bufferHandlerWrapper = new TcpBufferHandlerWrapper(buffer -> {
+        TcpBufferHandlerWrapper bufferHandlerWrapper = new TcpBufferHandlerWrapper(socket, buffer -> {
             // 只有完整协议帧才会进入此回调；解码失败说明双方协议不兼容或数据损坏。
             ProtocolMessage<RpcRequest> protocolMessage;
             try {
@@ -42,6 +42,8 @@ public class TcpServerHandler implements Handler<NetSocket> {
             // 处理请求
             // 构造响应结果对象
             RpcResponse rpcResponse = new RpcResponse();
+            // 状态默认成功；业务异常时改为非 OK，让客户端容错层能统一识别失败（ADR-0002）
+            byte status = (byte) ProtocolMessageStatusEnum.OK.getValue();
             try {
                 // 本地注册表保存实现类型；每次请求创建实例，要求服务实现可无参构造。
                 Class<?> implClass = LocalRegistry.get(rpcRequest.getServiceName());
@@ -55,11 +57,12 @@ public class TcpServerHandler implements Handler<NetSocket> {
                 e.printStackTrace();
                 rpcResponse.setMessage(e.getMessage());
                 rpcResponse.setException(e);
+                status = (byte) ProtocolMessageStatusEnum.BAD_RESPONSE.getValue();
             }
 
             // 复用请求头中的 requestId，客户端据此将异步响应关联到原请求。
             header.setType((byte) ProtocolMessageTypeEnum.RESPONSE.getKey());
-            header.setStatus((byte) ProtocolMessageStatusEnum.OK.getValue());
+            header.setStatus(status);
             ProtocolMessage<RpcResponse> responseProtocolMessage = new ProtocolMessage<>(header, rpcResponse);
             try {
                 Buffer encode = ProtocolMessageEncoder.encode(responseProtocolMessage);

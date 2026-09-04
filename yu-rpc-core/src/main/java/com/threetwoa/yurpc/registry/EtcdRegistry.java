@@ -14,9 +14,10 @@ import io.etcd.jetcd.watch.WatchEvent;
 
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
-import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 /**
@@ -31,9 +32,19 @@ public class EtcdRegistry implements Registry {
     private KV kvClient;
 
     /**
-     * 本机注册的节点 key 集合（用于维护续期）
+     * 本机注册的节点 key 集合（用于维护续期，cron 线程与 register/unRegister 并发访问）
      */
-    private final Set<String> localRegisterNodeKeySet = new HashSet<>();
+    private final Set<String> localRegisterNodeKeySet = new ConcurrentHashSet<>();
+
+    /**
+     * 注册 key 与服务元数据的本地映射（key 被 etcd 回收后用于重建注册）
+     */
+    private final Map<String, ServiceMetaInfo> localRegisterMetaMap = new ConcurrentHashMap<>();
+
+    /**
+     * 注册 key 与租约 id 的映射（续签复用同一租约，避免每次续签都创建新租约）
+     */
+    private final Map<String, Long> registerKeyLeaseIdMap = new ConcurrentHashMap<>();
 
     /**
      * 注册中心服务缓存（只支持单个服务缓存，已废弃，请使用下方的 RegistryServiceMultiCache）
@@ -71,19 +82,24 @@ public class EtcdRegistry implements Registry {
         // 创建 Lease 和 KV 客户端
         Lease leaseClient = client.getLeaseClient();
 
-        // 创建一个 30 秒的租约
-        long leaseId = leaseClient.grant(30).get().getID();
-
         // 设置要存储的键值对
         String registerKey = ETCD_ROOT_PATH + serviceMetaInfo.getServiceNodeKey();
         ByteSequence key = ByteSequence.from(registerKey, StandardCharsets.UTF_8);
         ByteSequence value = ByteSequence.from(JSONUtil.toJsonStr(serviceMetaInfo), StandardCharsets.UTF_8);
+
+        // 复用已有租约；仅首次注册（或租约已被回收）时才创建新的 30 秒租约
+        Long leaseId = registerKeyLeaseIdMap.get(registerKey);
+        if (leaseId == null) {
+            leaseId = leaseClient.grant(30).get().getID();
+            registerKeyLeaseIdMap.put(registerKey, leaseId);
+        }
 
         // 将键值对与租约关联起来，并设置过期时间
         PutOption putOption = PutOption.builder().withLeaseId(leaseId).build();
         kvClient.put(key, value, putOption).get();
         // 添加节点信息到本地缓存
         localRegisterNodeKeySet.add(registerKey);
+        localRegisterMetaMap.put(registerKey, serviceMetaInfo);
     }
 
     @Override
@@ -92,6 +108,8 @@ public class EtcdRegistry implements Registry {
         kvClient.delete(ByteSequence.from(registerKey, StandardCharsets.UTF_8));
         // 也要从本地缓存移除
         localRegisterNodeKeySet.remove(registerKey);
+        localRegisterMetaMap.remove(registerKey);
+        registerKeyLeaseIdMap.remove(registerKey);
     }
 
     @Override
@@ -120,12 +138,12 @@ public class EtcdRegistry implements Registry {
             List<ServiceMetaInfo> serviceMetaInfoList = keyValues.stream()
                     .map(keyValue -> {
                         String key = keyValue.getKey().toString(StandardCharsets.UTF_8);
-                        // 监听 key 的变化
-                        watch(key);
                         String value = keyValue.getValue().toString(StandardCharsets.UTF_8);
                         return JSONUtil.toBean(value, ServiceMetaInfo.class);
                     })
                     .collect(Collectors.toList());
+            // 监听整个服务前缀的变化（节点增删都能感知）
+            watch(serviceKey);
             // 写入服务缓存
             // 原教程代码，不支持多个服务同时缓存
             // registryServiceCache.writeCache(serviceMetaInfoList);
@@ -139,6 +157,8 @@ public class EtcdRegistry implements Registry {
 
     @Override
     public void heartBeat() {
+        // 支持秒级别定时任务（必须先开启，否则秒级 cron 表达式不生效）
+        CronUtil.setMatchSecond(true);
         // 10 秒续签一次
         CronUtil.schedule("*/10 * * * * *", new Task() {
             @Override
@@ -149,51 +169,63 @@ public class EtcdRegistry implements Registry {
                         List<KeyValue> keyValues = kvClient.get(ByteSequence.from(key, StandardCharsets.UTF_8))
                                 .get()
                                 .getKvs();
-                        // 该节点已过期（需要重启节点才能重新注册）
+                        // key 已被 etcd 回收，用本地缓存的服务元数据重建注册，避免节点永久掉线
                         if (CollUtil.isEmpty(keyValues)) {
+                            ServiceMetaInfo serviceMetaInfo = localRegisterMetaMap.get(key);
+                            if (serviceMetaInfo != null) {
+                                registerKeyLeaseIdMap.remove(key);
+                                register(serviceMetaInfo);
+                            }
                             continue;
                         }
-                        // 节点未过期，重新注册（相当于续签）
+                        // 节点未过期，对已有租约续签
                         KeyValue keyValue = keyValues.get(0);
                         String value = keyValue.getValue().toString(StandardCharsets.UTF_8);
                         ServiceMetaInfo serviceMetaInfo = JSONUtil.toBean(value, ServiceMetaInfo.class);
-                        register(serviceMetaInfo);
+                        try {
+                            Long leaseId = registerKeyLeaseIdMap.get(key);
+                            if (leaseId != null) {
+                                client.getLeaseClient().keepAliveOnce(leaseId).get();
+                            } else {
+                                // 本地无租约记录（如进程重启后），重新注册
+                                register(serviceMetaInfo);
+                            }
+                        } catch (Exception e) {
+                            // 租约已被 etcd 回收，清除记录后重新注册恢复
+                            registerKeyLeaseIdMap.remove(key);
+                            register(serviceMetaInfo);
+                        }
                     } catch (Exception e) {
-                        throw new RuntimeException(key + "续签失败", e);
+                        System.err.println(key + "续签失败: " + e.getMessage());
                     }
                 }
             }
         });
 
-        // 支持秒级别定时任务
-        CronUtil.setMatchSecond(true);
         CronUtil.start();
     }
 
     /**
      * 监听（消费端）
      *
-     * @param serviceNodeKey
+     * @param serviceKey
      */
     @Override
-    public void watch(String serviceNodeKey) {
+    public void watch(String serviceKey) {
         Watch watchClient = client.getWatchClient();
         // 之前未被监听，开启监听
-        boolean newWatch = watchingKeySet.add(serviceNodeKey);
+        boolean newWatch = watchingKeySet.add(serviceKey);
         if (newWatch) {
-            watchClient.watch(ByteSequence.from(serviceNodeKey, StandardCharsets.UTF_8), response -> {
+            // 监听服务前缀（而非单个节点 key），任意节点删除都能触发失效
+            String watchPrefix = ETCD_ROOT_PATH + serviceKey + "/";
+            watchClient.watch(ByteSequence.from(watchPrefix, StandardCharsets.UTF_8), response -> {
                 for (WatchEvent event : response.getEvents()) {
                     switch (event.getEventType()) {
-                        // key 删除时触发
+                        // 节点增删都按服务键清理缓存，下次服务发现时重新拉取
                         case DELETE:
-                            // 清理注册服务缓存
-                            // 原教程代码，不支持多个服务同时缓存
-                            // registryServiceCache.clearCache();
-                            // 优化后的代码，支持多个服务同时缓存
-                            // fixme 这里需要改为 serviceKey，而不是 serviceNodeKey
-                            registryServiceMultiCache.clearCache(serviceNodeKey);
-                            break;
                         case PUT:
+                            registryServiceMultiCache.clearCache(serviceKey);
+                            break;
                         default:
                             break;
                     }

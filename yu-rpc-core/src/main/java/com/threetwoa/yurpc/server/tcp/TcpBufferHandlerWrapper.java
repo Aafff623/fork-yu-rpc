@@ -3,6 +3,7 @@ package com.threetwoa.yurpc.server.tcp;
 import com.threetwoa.yurpc.protocol.ProtocolConstant;
 import io.vertx.core.Handler;
 import io.vertx.core.buffer.Buffer;
+import io.vertx.core.net.NetSocket;
 import io.vertx.core.parsetools.RecordParser;
 
 /**
@@ -18,7 +19,13 @@ public class TcpBufferHandlerWrapper implements Handler<Buffer> {
      */
     private final RecordParser recordParser;
 
-    public TcpBufferHandlerWrapper(Handler<Buffer> bufferHandler) {
+    /**
+     * 当前连接（bodyLength 非法时需要主动关闭，避免 parser 卡死在错误模式）
+     */
+    private final NetSocket socket;
+
+    public TcpBufferHandlerWrapper(NetSocket socket, Handler<Buffer> bufferHandler) {
+        this.socket = socket;
         recordParser = initRecordParser(bufferHandler);
     }
 
@@ -49,6 +56,12 @@ public class TcpBufferHandlerWrapper implements Handler<Buffer> {
                 if (-1 == size) {
                     // 读取消息体长度
                     size = buffer.getInt(13);
+                    // 长度必须有合理上界，防止非法长度导致内存溢出
+                    if (size < 0 || size > ProtocolConstant.MAX_BODY_LENGTH) {
+                        // 先关闭连接，避免 parser 卡在错误的 fixedSizeMode 继续读取脏数据
+                        socket.close();
+                        throw new RuntimeException("消息 bodyLength 非法: " + size);
+                    }
                     parser.fixedSizeMode(size);
                     // 写入头信息到结果
                     resultBuffer.appendBuffer(buffer);

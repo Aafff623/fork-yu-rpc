@@ -14,11 +14,6 @@ import java.util.TreeMap;
 public class ConsistentHashLoadBalancer implements LoadBalancer {
 
     /**
-     * 一致性 Hash 环，存放虚拟节点
-     */
-    private final TreeMap<Integer, ServiceMetaInfo> virtualNodes = new TreeMap<>();
-
-    /**
      * 虚拟节点数
      */
     private static final int VIRTUAL_NODE_NUM = 100;
@@ -29,6 +24,8 @@ public class ConsistentHashLoadBalancer implements LoadBalancer {
             return null;
         }
 
+        // 每次调用在方法内重建哈希环：实例字段不刷新会残留过期节点，且 TreeMap 非线程安全
+        TreeMap<Integer, ServiceMetaInfo> virtualNodes = new TreeMap<>();
         // 构建虚拟节点环
         for (ServiceMetaInfo serviceMetaInfo : serviceMetaInfoList) {
             for (int i = 0; i < VIRTUAL_NODE_NUM; i++) {

@@ -37,6 +37,10 @@ public class ProtocolMessageDecoder {
         header.setStatus(buffer.getByte(4));
         header.setRequestId(buffer.getLong(5));
         header.setBodyLength(buffer.getInt(13));
+        // 消息体长度必须有合理上界，防止非法长度导致内存溢出
+        if (header.getBodyLength() < 0 || header.getBodyLength() > ProtocolConstant.MAX_BODY_LENGTH) {
+            throw new RuntimeException("消息 bodyLength 非法: " + header.getBodyLength());
+        }
         // 解决粘包问题，只读指定长度的数据
         byte[] bodyBytes = buffer.getBytes(17, 17 + header.getBodyLength());
         // 解析消息体

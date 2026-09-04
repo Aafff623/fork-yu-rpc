@@ -21,4 +21,9 @@ public interface ProtocolConstant {
      * 协议版本号
      */
     byte PROTOCOL_VERSION = 0x1;
+
+    /**
+     * 消息体最大长度（10MB，防止非法长度导致内存溢出）
+     */
+    int MAX_BODY_LENGTH = 10 * 1024 * 1024;
 }

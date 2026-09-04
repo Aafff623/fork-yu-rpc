@@ -24,4 +24,4 @@
 3. 不提交含密钥、账号、用户隐私的截图。
 4. `ppt/` `speeches/` `video/` `images/avatar|icon/` `backup/` **按需再建**，不用 `.gitkeep` 凑骨架；旧 `assets/theme/` 已废弃。
 5. Showcase 对本仓优先「概念示意」；有可跑界面后再用 Playwright 替换为真机图。
-6. 出图规范见 `docs/outputs/prd/readme-diagrams/`。
+6. 出图规范：README 配图与本表路径为准，无独立 brief 文档。
